@@ -12,11 +12,5 @@ public class SistemaFacturaApplication {
 		SpringApplication.run(SistemaFacturaApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner init() {
-		return args -> {
-			System.out.println("Hola Mundo");
-		};
-	}
 
 }
