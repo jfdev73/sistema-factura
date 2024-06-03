@@ -6,9 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -35,7 +38,13 @@ public class ClienteController {
     }
 
     @PostMapping("save")
-    public String saveCliente(Cliente cliente, Model model){
+    public String saveCliente(@Valid Cliente cliente, BindingResult result, Model model){
+        if (result.hasErrors()){
+            log.info("Errores en el formulario");
+            log.warn(result.getFieldError().getDefaultMessage());
+            model.addAttribute("titulo","Formulario Cliente");
+            return "clienteEdit";
+        }
         model.addAttribute("titulo","Listado de clientes");
         log.info("Cliente a guardar: {}", cliente);
         clienteService.save(cliente);
